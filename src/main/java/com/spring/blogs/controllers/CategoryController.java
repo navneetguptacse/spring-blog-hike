@@ -20,6 +20,8 @@ import com.spring.blogs.responses.ApiResponse;
 import com.spring.blogs.responses.ErrorResponse;
 import com.spring.blogs.services.CategoryService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/catgs")
 public class CategoryController {
@@ -30,7 +32,7 @@ public class CategoryController {
 	// POST: Create Category
 	@PostMapping("/")
 	public ResponseEntity<ApiResponse<Object>> createCategory(
-			@RequestBody CategoryTransferObject categoryTransferObject) {
+			@Valid @RequestBody CategoryTransferObject categoryTransferObject) {
 		try {
 			boolean categoryExists = this.categoryService
 					.checkCategoryExistByCategoryTitle(categoryTransferObject.getTitle());
@@ -56,7 +58,7 @@ public class CategoryController {
 	// PUT: Update Category
 	@PutMapping("/{categoryId}")
 	public ResponseEntity<ApiResponse<Object>> updateCategory(
-			@RequestBody CategoryTransferObject categoryTransferObject, @PathVariable Integer categoryId) {
+			@Valid @RequestBody CategoryTransferObject categoryTransferObject, @PathVariable Integer categoryId) {
 		try {
 			CategoryTransferObject updatedCategoryTransferObject = this.categoryService
 					.updateCategory(categoryTransferObject, categoryId);
