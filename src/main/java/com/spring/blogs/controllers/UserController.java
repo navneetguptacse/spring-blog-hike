@@ -4,6 +4,9 @@ import com.spring.blogs.payloads.UserTransferObject;
 import com.spring.blogs.responses.ApiResponse;
 import com.spring.blogs.responses.ErrorResponse;
 import com.spring.blogs.services.UserService;
+
+import jakarta.validation.Valid;
+
 import com.spring.blogs.exceptions.ResourceNotFoundException;
 
 import java.util.List;
@@ -22,7 +25,7 @@ public class UserController {
 
 	// POST: Create User
 	@PostMapping("/")
-	public ResponseEntity<ApiResponse<Object>> createUser(@RequestBody UserTransferObject userTransferObject) {
+	public ResponseEntity<ApiResponse<Object>> createUser(@Valid @RequestBody UserTransferObject userTransferObject) {
 		try {
 			boolean userExists = this.userService.checkUserExistsByEmailOrUsername(userTransferObject.getEmail(),
 					userTransferObject.getUsername());
@@ -47,7 +50,7 @@ public class UserController {
 
 	// PUT: Update User
 	@PutMapping("/{userId}")
-	public ResponseEntity<ApiResponse<Object>> updateUser(@RequestBody UserTransferObject userTransferObject,
+	public ResponseEntity<ApiResponse<Object>> updateUser(@Valid @RequestBody UserTransferObject userTransferObject,
 			@PathVariable Integer userId) {
 		try {
 			UserTransferObject updatedUserTransferObject = this.userService.updateUser(userTransferObject, userId);
