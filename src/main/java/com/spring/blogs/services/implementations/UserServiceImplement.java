@@ -30,6 +30,13 @@ public class UserServiceImplement implements UserService {
 	}
 
 	@Override
+	public Boolean checkUserExistsByEmailOrUsername(String email, String username) {
+		boolean emailExists = this.userRepository.findByEmail(email).isPresent();
+		boolean usernameExists = userRepository.findByUsername(username).isPresent();
+		return emailExists || usernameExists;
+	}
+
+	@Override
 	public UserTransferObject updateUser(UserTransferObject userTransferObject, Integer userId) {
 		UserEntity user = this.userRepository.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
@@ -63,14 +70,6 @@ public class UserServiceImplement implements UserService {
 		UserEntity user = this.userRepository.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
 		this.userRepository.delete(user);
-	}
-
-	@Override
-	public Boolean checkUserExistsByEmailOrUsername(String email, String username) {
-		boolean emailExists = this.userRepository.findByEmail(email).isPresent();
-		boolean usernameExists = userRepository.findByUsername(username).isPresent();
-
-		return emailExists || usernameExists;
 	}
 
 	// Method: Converting UserTransferObject to UserEntity
