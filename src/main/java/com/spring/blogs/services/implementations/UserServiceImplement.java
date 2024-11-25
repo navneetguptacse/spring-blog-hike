@@ -3,6 +3,7 @@ package com.spring.blogs.services.implementations;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class UserServiceImplement implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	public UserTransferObject createUser(UserTransferObject userTransferObject) {
@@ -71,25 +75,13 @@ public class UserServiceImplement implements UserService {
 
 	// Method: Converting UserTransferObject to UserEntity
 	public UserEntity transferObjectToUser(UserTransferObject userTransferObject) {
-		UserEntity user = new UserEntity();
-		user.setId(userTransferObject.getId());
-		user.setName(userTransferObject.getName());
-		user.setEmail(userTransferObject.getEmail());
-		user.setUsername(userTransferObject.getUsername());
-		user.setPassword(userTransferObject.getPassword());
-		user.setAbout(userTransferObject.getAbout());
+		UserEntity user = this.modelMapper.map(userTransferObject, UserEntity.class);
 		return user;
 	}
 
 	// Method: UserEntity to Converting UserTransferObject
 	public UserTransferObject userToTransferObject(UserEntity user) {
-		UserTransferObject userTransferObject = new UserTransferObject();
-		userTransferObject.setId(user.getId());
-		userTransferObject.setName(user.getName());
-		userTransferObject.setEmail(user.getEmail());
-		userTransferObject.setUsername(user.getUsername());
-		userTransferObject.setPassword(user.getPassword());
-		userTransferObject.setAbout(user.getAbout());
+		UserTransferObject userTransferObject = this.modelMapper.map(user, UserTransferObject.class);
 		return userTransferObject;
 	}
 
